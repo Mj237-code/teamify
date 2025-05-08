@@ -1,0 +1,25 @@
+# Active la réécriture d'URL
+RewriteEngine On
+
+# Base du projet (à adapter si ton projet est dans un sous-dossier)
+RewriteBase /teamify/
+
+# Redirige toutes les requêtes vers index.php sauf si c’est un fichier ou dossier réel
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+# Affiche les erreurs PHP (en développement seulement)
+php_flag display_errors On
+php_value error_reporting 32767
+
+# Empêche l'accès aux fichiers sensibles
+<FilesMatch "\.(htaccess|env|git|ini|log|sh)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# Autorise l'accès aux fichiers PHP dans tous les dossiers
+<Files "*.php">
+  Require all granted
+</Files>
