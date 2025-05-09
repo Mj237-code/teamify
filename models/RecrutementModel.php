@@ -15,7 +15,7 @@ class RecrutementModel {
     }
 
     public function getById($id) {
-        $stmt = $this->pdo->prepare("SELECT * FROM recrutements WHERE id = ?");
+        $stmt = $this->pdo->prepare("SELECT * FROM recrutement WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

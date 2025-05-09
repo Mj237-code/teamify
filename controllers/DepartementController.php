@@ -1,5 +1,5 @@
 <?php
-require_once 'models/DepartementModel.php';
+require_once __DIR__ . '/../models/DepartementModel.php';
 
 $departementModel = new DepartementModel($pdo);
 

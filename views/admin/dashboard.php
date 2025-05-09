@@ -7,7 +7,6 @@ require_once '../../models/CongesModel.php';
 require_once '../../models/RecrutementModel.php';
 requireRole('admin');
 
-// Statistiques dynamiques
 $totalEmployes = EmployeModel::count($pdo);
 $totalDepartements = DepartementModel::count($pdo);
 $congesEnAttente = CongesModel::countPending($pdo);
@@ -20,51 +19,65 @@ $postesOuverts = RecrutementModel::countOpen($pdo);
     <meta charset="UTF-8">
     <title>Dashboard Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/teamify/assets/css/style.css" rel="stylesheet"> <!-- ton CSS personnalisé -->
 </head>
-<body class="bg-light">
-
-<div class="container py-4">
-    <h1 class="mb-4">🛠️ Tableau de bord Administrateur</h1>
-
-    <div class="row g-3">
-        <div class="col-md-3">
-            <a href="gestion_employes.php" class="btn btn-outline-primary w-100">👥 Gérer les employés</a>
-        </div>
-        <div class="col-md-3">
-            <a href="gestion_departements.php" class="btn btn-outline-secondary w-100">🏢 Gérer les départements</a>
-        </div>
-        <div class="col-md-3">
-            <a href="gestion_conges.php" class="btn btn-outline-warning w-100">📅 Gérer les congés</a>
-        </div>
-        <div class="col-md-3">
-            <a href="gestion_paies.php" class="btn btn-outline-success w-100">💸 Gérer les paies</a>
-        </div>
-        <div class="col-md-3">
-            <a href="gestion_recrutements.php" class="btn btn-outline-dark w-100">📄 Gérer les recrutements</a>
-        </div>
-        <div class="col-md-3">
-            <a href="gestion_documents.php" class="btn btn-outline-info w-100">📂 Gérer les documents</a>
-        </div>
-        <div class="col-md-3">
-            <a href="profil.php" class="btn btn-outline-primary w-100">👤 Mon profil</a>
-        </div>
-        <div class="col-md-3">
-            <a href="logout.php" class="btn btn-outline-danger w-100">🚪 Déconnexion</a>
-        </div>
+<body>
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div class="bg-dark text-white p-3 vh-100" style="width: 220px;">
+        <h4 class="mb-4">Teamify</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item"><a href="#" class="nav-link active">Dashboard</a></li>
+            <li class="nav-item"><a href="gestion_employes.php" class="nav-link">Employés</a></li>
+            <li class="nav-item"><a href="gestion_departements.php" class="nav-link">Départements</a></li>
+            <li class="nav-item"><a href="gestion_conges.php" class="nav-link">Congés</a></li>
+            <li class="nav-item"><a href="gestion_paies.php" class="nav-link">Paies</a></li>
+            <li class="nav-item"><a href="gestion_recrutements.php" class="nav-link">Recrutements</a></li>
+            <li class="nav-item"><a href="gestion_documents.php" class="nav-link">Documents</a></li>
+            <li class="nav-item"><a href="profil.php" class="nav-link">Mon profil</a></li>
+            <li class="nav-item"><a href="logout.php" class="nav-link text-danger">Déconnexion</a></li>
+        </ul>
     </div>
 
-    <div class="card shadow-sm mt-5">
-        <div class="card-body">
-            <h5 class="card-title">📊 Statistiques</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">👥 Employés : <?= $totalEmployes ?></li>
-                <li class="list-group-item">🏢 Départements : <?= $totalDepartements ?></li>
-                <li class="list-group-item">📅 Congés en attente : <?= $congesEnAttente ?></li>
-                <li class="list-group-item">💼 Postes ouverts : <?= $postesOuverts ?></li>
-            </ul>
+    <!-- Contenu principal -->
+    <div class="container-fluid py-4 px-5">
+        <h3 class="mb-4">🛠️ Tableau de bord Administrateur</h3>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">👥 Employés</h5>
+                        <p class="card-text fs-4"><?= $totalEmployes ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">🏢 Départements</h5>
+                        <p class="card-text fs-4"><?= $totalDepartements ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">📅 Congés en attente</h5>
+                        <p class="card-text fs-4"><?= $congesEnAttente ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">💼 Postes ouverts</h5>
+                        <p class="card-text fs-4"><?= $postesOuverts ?></p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 </body>
 </html>

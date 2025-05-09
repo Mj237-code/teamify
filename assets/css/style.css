@@ -1,6 +1,60 @@
 body {
-    background-color: #f8f9fa;
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.card {
-    border-radius: 1rem;
+
+.bg-dark {
+    background-color: #035c68 !important;
+}
+
+.nav-link {
+    padding: 10px 15px;
+    font-weight: 500;
+    color: #ffffff;
+    transition: background 0.2s;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.nav-link.active {
+    background-color: #027e8c;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+h3, h5 {
+    color: #222;
+}
+
+.form-control,
+.form-select {
+    border-radius: 8px;
+}
+
+.btn-success {
+    background-color: #028b8b;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #026d6d;
+}
+
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: #eef1f5;
+    color: #333;
+}
+
+.btn-sm {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    border-radius: 5px;
 }

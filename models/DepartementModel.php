@@ -7,7 +7,7 @@ class DepartementModel {
     }
 
     public function getAll() {
-        $stmt = $this->pdo->query("SELECT * FROM departements ORDER BY nom ASC");
+        $stmt = $this->pdo->query("SELECT * FROM departement ORDER BY nom ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -18,17 +18,17 @@ class DepartementModel {
     }
 
     public function create($nom) {
-        $stmt = $this->pdo->prepare("INSERT INTO departements (nom) VALUES (?)");
+        $stmt = $this->pdo->prepare("INSERT INTO departement (nom) VALUES (?)");
         return $stmt->execute([$nom]);
     }
 
     public function update($id, $nom) {
-        $stmt = $this->pdo->prepare("UPDATE departements SET nom = ? WHERE id = ?");
+        $stmt = $this->pdo->prepare("UPDATE departement SET nom = ? WHERE id = ?");
         return $stmt->execute([$nom, $id]);
     }
 
     public function delete($id) {
-        $stmt = $this->pdo->prepare("DELETE FROM departements WHERE id = ?");
+        $stmt = $this->pdo->prepare("DELETE FROM departement WHERE id = ?");
         return $stmt->execute([$id]);
     }
 

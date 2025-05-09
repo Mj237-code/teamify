@@ -19,7 +19,7 @@ class EmployeModel {
     public function getById($id) {
         $stmt = $this->pdo->prepare("
             SELECT e.*, d.nom AS departement_nom
-            FROM employes e
+            FROM employe e
             JOIN departement d ON e.departement_id = d.id
             WHERE e.id = ?
         ");

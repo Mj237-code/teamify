@@ -23,8 +23,25 @@ if (isset($_POST['postuler'])) {
 // Mise à jour du statut
 if (isset($_POST['changer_statut'])) {
     $id = $_POST['candidature_id'];
-    $statut = $_POST['nouveau_statut'];
-    $recrutementModel->updateStatut($id, $statut);
-    header("Location: ../views/admin/gestion_recrutements.php");
-    exit();
+    $nouveau_statut = $_POST['nouveau_statut'];
+
+    // Récupération des infos du candidat
+    $candidat = $recrutementModel->getById($id);
+    if ($candidat) {
+        $recrutementModel->updateStatut($id, $nouveau_statut);
+
+        // Préparation de l'email
+        $to = $candidat['email'];
+        $subject = "Mise à jour de votre candidature - Teamify";
+        $message = "Bonjour " . htmlspecialchars($candidat['nom']) . ",\n\n";
+        $message .= "Votre candidature pour le poste de " . htmlspecialchars($candidat['poste']) . " a été mise à jour.\n";
+        $message .= "Statut actuel : " . strtoupper($nouveau_statut) . "\n\n";
+        $message .= "Merci pour votre intérêt et à bientôt.\n\nL'équipe RH Teamify";
+
+        $headers = "From: no-reply@teamify.com\r\n";
+        $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+
+        // Envoi de l'email
+        mail($to, $subject, $message, $headers);
+    }
 }
