@@ -1,5 +1,9 @@
 <?php
+// Inclusion de la configuration PDO
+require_once __DIR__ . '/../includes/config.php'; // Corrigé ici
 require_once __DIR__ . '/../models/PaieModel.php';
+require_once __DIR__ . '/../lib/tcpdf/tcpdf.php'; // Assure-toi que ce chemin est correct
+
 $paieModel = new PaieModel($pdo);
 
 if (isset($_POST['ajouter_paie'])) {
@@ -7,22 +11,39 @@ if (isset($_POST['ajouter_paie'])) {
     $mois = $_POST['mois'];
     $salaire = $_POST['salaire'];
 
-    // Génération du fichier PDF
-    require_once '../lib/fpdf/fpdf.php';
-    $pdf = new FPDF();
+    // Création du PDF avec TCPDF
+    $pdf = new TCPDF();
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor("Teamify RH");
+    $pdf->SetTitle("Bulletin de paie");
+    $pdf->SetMargins(20, 20, 20);
     $pdf->AddPage();
-    $pdf->SetFont('Arial','B',16);
-    $pdf->Cell(40,10,"Bulletin de paie");
-    $pdf->Ln();
-    $pdf->SetFont('Arial','',12);
-    $pdf->Cell(0,10,"Employé ID: $employe_id", 0, 1);
-    $pdf->Cell(0,10,"Mois: $mois", 0, 1);
-    $pdf->Cell(0,10,"Salaire: $salaire FCFA", 0, 1);
 
+    $html = <<<EOD
+<h1 style="text-align:center;">Bulletin de Paie</h1>
+<p><strong>Employé ID :</strong> {$employe_id}</p>
+<p><strong>Mois :</strong> {$mois}</p>
+<p><strong>Salaire :</strong> {$salaire} FCFA</p>
+EOD;
+
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    // Construction du chemin absolu vers le fichier PDF
     $nom_fichier = uniqid('paie_') . '.pdf';
-    $chemin = "../uploads/bulletins/" . $nom_fichier;
-    $pdf->Output('F', $chemin);
+    $repertoire_relatif = '/../uploads/bulletins/';
+    $repertoire_absolu = realpath(__DIR__ . $repertoire_relatif);
 
+    if (!$repertoire_absolu) {
+        mkdir(__DIR__ . $repertoire_relatif, 0777, true);
+        $repertoire_absolu = realpath(__DIR__ . $repertoire_relatif);
+    }
+
+    $chemin_complet = $repertoire_absolu . DIRECTORY_SEPARATOR . $nom_fichier;
+
+    // Génération du PDF
+    $pdf->Output($chemin_complet, 'F');
+
+    // Enregistrement en BDD
     $paieModel->create($employe_id, $mois, $salaire, $nom_fichier);
 
     header("Location: ../views/admin/gestion_paies.php");

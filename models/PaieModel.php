@@ -7,7 +7,7 @@ class PaieModel {
     }
 
     public function getAll() {
-        $stmt = $this->pdo->query("SELECT p.*, e.nom FROM paie p JOIN employes e ON p.employe_id = e.id");
+        $stmt = $this->pdo->query("SELECT p.*, e.nom FROM paie p JOIN employe e ON p.employe_id = e.id");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
